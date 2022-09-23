@@ -1,4 +1,4 @@
-package logreader
+package shared
 
 type LogFile struct {
 	Content []string

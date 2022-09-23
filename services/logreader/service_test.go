@@ -3,6 +3,7 @@ package logreader
 import (
 	"testing"
 
+	"github.com/WilliamDaniel/loganalytics/shared"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,13 +21,13 @@ func Test_service_ReadFile(t *testing.T) {
 	tests := []struct {
 		name            string
 		logReader       LogReaderGateway
-		expectedLogFile *LogFile
+		expectedLogFile *shared.LogFile
 		expectedError   string
 	}{
 		{
 			name:      "empty file",
 			logReader: newLogReaderAdapterMock("empty_file.txt"),
-			expectedLogFile: &LogFile{
+			expectedLogFile: &shared.LogFile{
 				Content: nil,
 			},
 			expectedError: "",
@@ -34,7 +35,7 @@ func Test_service_ReadFile(t *testing.T) {
 		{
 			name:      "with logs",
 			logReader: newLogReaderAdapterMock("logs.txt"),
-			expectedLogFile: &LogFile{
+			expectedLogFile: &shared.LogFile{
 				Content: []string{"{'request:test'}"},
 			},
 			expectedError: "",
@@ -42,7 +43,7 @@ func Test_service_ReadFile(t *testing.T) {
 		{
 			name:      "with bad filepath",
 			logReader: newLogReaderAdapterMock("logss.txt"),
-			expectedLogFile: &LogFile{
+			expectedLogFile: &shared.LogFile{
 				Content: []string{"{'request:test'}"},
 			},
 			expectedError: ErrToReadFile.Error(),
@@ -64,15 +65,15 @@ func Test_service_ReadFile(t *testing.T) {
 	}
 }
 
-func (r logReaderAdapterMock) Read() (*LogFile, error) {
-	var logFile LogFile
+func (r logReaderAdapterMock) Read() (*shared.LogFile, error) {
+	var logFile shared.LogFile
 	switch r.filepath {
 	case "empty_file.txt":
-		logFile = LogFile{
+		logFile = shared.LogFile{
 			Content: nil,
 		}
 	case "logs.txt":
-		logFile = LogFile{
+		logFile = shared.LogFile{
 			Content: []string{"{'request:test'}"},
 		}
 	default:

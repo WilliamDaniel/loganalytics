@@ -1,7 +1,9 @@
 package logreader
 
+import "github.com/WilliamDaniel/loganalytics/shared"
+
 type Service interface {
-	ReadFile() (*LogFile, error)
+	ReadFile() (*shared.LogFile, error)
 }
 
 type service struct {
@@ -14,7 +16,7 @@ func NewService(logReaderGateway LogReaderGateway) Service {
 	}
 }
 
-func (s service) ReadFile() (*LogFile, error) {
+func (s service) ReadFile() (*shared.LogFile, error) {
 	logFile, err := s.logReader.Read()
 	if err != nil {
 		return nil, ErrToReadFile

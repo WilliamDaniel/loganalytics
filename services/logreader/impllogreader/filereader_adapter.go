@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"os"
 
-	"github.com/WilliamDaniel/loganalytics/services/logreader"
+	"github.com/WilliamDaniel/loganalytics/shared"
 )
 
 type LogReaderAdapter struct {
@@ -17,9 +17,9 @@ func NewLogReaderAdapter(Filepath string) LogReaderAdapter {
 	}
 }
 
-func (r LogReaderAdapter) Read() (*logreader.LogFile, error) {
+func (r LogReaderAdapter) Read() (*shared.LogFile, error) {
 	fileLines := loadFileLines(r.Filepath)
-	logFile := logreader.LogFile{
+	logFile := shared.LogFile{
 		Content: fileLines,
 	}
 	return &logFile, nil
