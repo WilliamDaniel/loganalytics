@@ -6,8 +6,11 @@ type ParsedLog struct {
 	Latencies           RequestLatencies           `json:"latencies"`
 }
 
+type AuthenticatedEntityConsumerID struct {
+	UUID string `json:"uuid"`
+}
 type RequestAuthenticatedEntity struct {
-	ConsumerID string `json:"consumer_id"`
+	ConsumerID AuthenticatedEntityConsumerID `json:"consumer_id"`
 }
 
 type RequestService struct {
