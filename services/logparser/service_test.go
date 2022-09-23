@@ -55,7 +55,7 @@ func Test_service_Parse(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			s := &service{
-				LogFile: test.logFile,
+				LogFile: &test.logFile,
 			}
 			parsed, err := s.Parse()
 			if test.expectedError != "" {

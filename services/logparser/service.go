@@ -10,10 +10,10 @@ type Service interface {
 	Parse() (*[]ParsedLog, error)
 }
 type service struct {
-	LogFile shared.LogFile
+	LogFile *shared.LogFile
 }
 
-func NewService(LogFile shared.LogFile) Service {
+func NewService(LogFile *shared.LogFile) Service {
 	return &service{
 		LogFile: LogFile,
 	}
@@ -27,7 +27,7 @@ func (s *service) Parse() (*[]ParsedLog, error) {
 	return &parsedLogLines, nil
 }
 
-func getParsedLogLines(LogFile shared.LogFile) ([]ParsedLog, error) {
+func getParsedLogLines(LogFile *shared.LogFile) ([]ParsedLog, error) {
 	if len(LogFile.Content) == 0 {
 		return []ParsedLog{}, nil
 	}
