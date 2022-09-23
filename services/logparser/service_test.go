@@ -14,7 +14,7 @@ func Test_service_Parse(t *testing.T) {
 	tests := []struct {
 		name               string
 		logFile            shared.LogFile
-		expectedParsedLogs *[]ParsedLog
+		expectedParsedLogs *[]shared.ParsedLog
 		expectedError      string
 	}{
 		{
@@ -22,10 +22,10 @@ func Test_service_Parse(t *testing.T) {
 			logFile: shared.LogFile{
 				Content: loadFileLines("testdata/log.txt"),
 			},
-			expectedParsedLogs: &[]ParsedLog{
+			expectedParsedLogs: &[]shared.ParsedLog{
 				{
-					AuthenticatedEntity: RequestAuthenticatedEntity{
-						ConsumerID: AuthenticatedEntityConsumerID{
+					AuthenticatedEntity: shared.RequestAuthenticatedEntity{
+						ConsumerID: shared.AuthenticatedEntityConsumerID{
 							UUID: "87a14705-29ec-3a44-88e4-1681043c8ac2",
 						},
 					},
@@ -37,14 +37,14 @@ func Test_service_Parse(t *testing.T) {
 			logFile: shared.LogFile{
 				Content: []string{`{"authenticated_entity":{"consumer_id":{"uuid":"123"}}, "service":{"id":"456"}}`},
 			},
-			expectedParsedLogs: &[]ParsedLog{
+			expectedParsedLogs: &[]shared.ParsedLog{
 				{
-					AuthenticatedEntity: RequestAuthenticatedEntity{
-						ConsumerID: AuthenticatedEntityConsumerID{
+					AuthenticatedEntity: shared.RequestAuthenticatedEntity{
+						ConsumerID: shared.AuthenticatedEntityConsumerID{
 							UUID: "123",
 						},
 					},
-					Service: RequestService{
+					Service: shared.RequestService{
 						ID: "456",
 					},
 				},

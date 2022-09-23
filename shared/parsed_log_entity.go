@@ -1,4 +1,4 @@
-package logparser
+package shared
 
 type ParsedLog struct {
 	AuthenticatedEntity RequestAuthenticatedEntity `json:"authenticated_entity"`

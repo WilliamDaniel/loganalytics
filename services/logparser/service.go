@@ -7,7 +7,7 @@ import (
 )
 
 type Service interface {
-	Parse() (*[]ParsedLog, error)
+	Parse() (*[]shared.ParsedLog, error)
 }
 type service struct {
 	LogFile *shared.LogFile
@@ -19,7 +19,7 @@ func NewService(LogFile *shared.LogFile) Service {
 	}
 }
 
-func (s *service) Parse() (*[]ParsedLog, error) {
+func (s *service) Parse() (*[]shared.ParsedLog, error) {
 	parsedLogLines, err := getParsedLogLines(s.LogFile)
 	if err != nil {
 		return nil, err
@@ -27,18 +27,18 @@ func (s *service) Parse() (*[]ParsedLog, error) {
 	return &parsedLogLines, nil
 }
 
-func getParsedLogLines(LogFile *shared.LogFile) ([]ParsedLog, error) {
+func getParsedLogLines(LogFile *shared.LogFile) ([]shared.ParsedLog, error) {
 	if len(LogFile.Content) == 0 {
-		return []ParsedLog{}, nil
+		return []shared.ParsedLog{}, nil
 	}
 
-	var logs []ParsedLog
+	var logs []shared.ParsedLog
 	for _, line := range LogFile.Content {
-		var parsed ParsedLog
+		var parsed shared.ParsedLog
 
 		err := json.Unmarshal([]byte(line), &parsed)
 		if err != nil {
-			return []ParsedLog{}, err
+			return []shared.ParsedLog{}, err
 		}
 
 		logs = append(logs, parsed)
