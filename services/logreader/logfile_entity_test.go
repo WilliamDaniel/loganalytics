@@ -1,16 +1,12 @@
 package logreader
 
 import (
-	"bufio"
-	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCheckLogFile(t *testing.T) {
-	const path = "testdata"
 
 	tests := []struct {
 		name          string
@@ -20,14 +16,14 @@ func TestCheckLogFile(t *testing.T) {
 		{
 			name: "Load a log file with 2 lines",
 			logFile: LogFile{
-				Content: loadFile(filepath.Join(path, "logs_test.txt")),
+				Content: []string{"{'request':'test'}"},
 			},
 			expectedError: "",
 		},
 		{
 			name: "Load a empty log file",
 			logFile: LogFile{
-				Content: loadFile(filepath.Join(path, "empty_log.txt")),
+				Content: nil,
 			},
 			expectedError: ErrEmptyLogFile.Error(),
 		},
@@ -44,22 +40,4 @@ func TestCheckLogFile(t *testing.T) {
 			}
 		})
 	}
-}
-
-func loadFile(filepath string) []string {
-	readFile, err := os.Open(filepath)
-	if err != nil {
-		panic(err)
-	}
-
-	fileScanner := bufio.NewScanner(readFile)
-	fileScanner.Split(bufio.ScanLines)
-	var fileLines []string
-
-	for fileScanner.Scan() {
-		fileLines = append(fileLines, fileScanner.Text())
-	}
-	readFile.Close()
-
-	return fileLines
 }
