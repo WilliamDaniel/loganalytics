@@ -1,7 +1,5 @@
 package logstorer
 
-import "errors"
-
 type Service interface {
 	Insert(LogData) error
 }
@@ -18,7 +16,7 @@ func NewService(repo LogRepository) Service {
 
 func (s *service) Insert(log LogData) error {
 	if err := s.repo.Store(log); err != nil {
-		return errors.New("error to store log data into a database")
+		return ErrToStoreLogIntoDatabase
 	}
 	return nil
 }

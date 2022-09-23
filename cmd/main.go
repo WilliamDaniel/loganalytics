@@ -6,6 +6,9 @@ import (
 	"github.com/WilliamDaniel/loganalytics/services/logparser"
 	"github.com/WilliamDaniel/loganalytics/services/logreader"
 	"github.com/WilliamDaniel/loganalytics/services/logreader/impllogreader"
+	"github.com/WilliamDaniel/loganalytics/services/logstorer"
+	"github.com/WilliamDaniel/loganalytics/services/logstorer/impllogstorer"
+	"github.com/WilliamDaniel/loganalytics/shared"
 )
 
 func main() {
@@ -19,12 +22,20 @@ func main() {
 	fmt.Print(logFileReader)
 
 	parserService := logparser.NewService(logFileReader)
-	_, err = parserService.Parse()
+	parsedLogs, err := parserService.Parse()
 	if err != nil {
 		panic(err)
 	}
 
-	// TODO: obter resultado do parser e enviar para serviço de storage
+	storageAdapter := impllogstorer.NewMemoryDbAdapter(shared.NewMemoryDb())
+	storageService := logstorer.NewService(storageAdapter)
+	logData := logstorer.LogData{
+		Log: *parsedLogs,
+	}
+	err = storageService.Insert(logData)
+	if err != nil {
+		panic(err)
+	}
 
 	// TODO: Chamar serviço process e export em csv.
 }

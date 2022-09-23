@@ -1,5 +1,6 @@
 package logstorer
 
 type LogRepository interface {
-	Store(LogData) error
+	Store(log LogData) error
+	Find(ServiceID string) *LogData
 }
