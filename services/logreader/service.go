@@ -1,7 +1,7 @@
 package logreader
 
 type Service interface {
-	ReadFile(Filepath string) (*LogFile, error)
+	ReadFile() (*LogFile, error)
 }
 
 type service struct {
@@ -14,7 +14,7 @@ func NewService(logReaderGateway LogReaderGateway) Service {
 	}
 }
 
-func (s service) ReadFile(Filepath string) (*LogFile, error) {
+func (s service) ReadFile() (*LogFile, error) {
 	logFile, err := s.logReader.Read()
 	if err != nil {
 		return nil, ErrToReadFile
