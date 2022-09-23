@@ -20,13 +20,13 @@ func Test_service_Parse(t *testing.T) {
 		{
 			name: "with authenticated entity",
 			logFile: shared.LogFile{
-				Content: loadFileLines("testdata/log.txt"),
+				Content: loadFileLines("testdata/logs.txt"),
 			},
 			expectedParsedLogs: &[]shared.ParsedLog{
 				{
 					AuthenticatedEntity: shared.RequestAuthenticatedEntity{
 						ConsumerID: shared.AuthenticatedEntityConsumerID{
-							UUID: "87a14705-29ec-3a44-88e4-1681043c8ac2",
+							UUID: "72b34d31-4c14-3bae-9cc6-516a0939c9d6",
 						},
 					},
 				},
