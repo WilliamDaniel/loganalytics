@@ -1,7 +1,8 @@
 package logstorer
 
 type Service interface {
-	Insert(LogData) error
+	Insert(Logdata LogData) error
+	Get(ServiceID string) *LogData
 }
 
 type service struct {
@@ -19,4 +20,8 @@ func (s *service) Insert(log LogData) error {
 		return ErrToStoreLogIntoDatabase
 	}
 	return nil
+}
+
+func (s *service) Get(ServiceID string) *LogData {
+	return s.repo.Find(ServiceID)
 }

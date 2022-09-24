@@ -12,14 +12,12 @@ import (
 )
 
 func main() {
-	logReaderAdapter := impllogreader.NewLogReaderAdapter("services/logreader/testdata/logs_test.txt")
+	logReaderAdapter := impllogreader.NewLogReaderAdapter("services/logreader/testdata/logs.txt")
 	logReaderService := logreader.NewService(logReaderAdapter)
 	logFileReader, err := logReaderService.ReadFile()
 	if err != nil {
 		fmt.Println("error to read log file")
 	}
-
-	fmt.Print(logFileReader)
 
 	parserService := logparser.NewService(logFileReader)
 	parsedLogs, err := parserService.Parse()
@@ -30,11 +28,11 @@ func main() {
 	storageAdapter := impllogstorer.NewMemoryDbAdapter(shared.NewMemoryDb())
 	storageService := logstorer.NewService(storageAdapter)
 	logData := logstorer.LogData{
-		Log: *parsedLogs,
+		Logs: *parsedLogs,
 	}
 	err = storageService.Insert(logData)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 
 	// TODO: Chamar serviço process e export em csv.

@@ -2,6 +2,7 @@ package impllogstorer
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/WilliamDaniel/loganalytics/services/logstorer"
 	"github.com/WilliamDaniel/loganalytics/shared"
@@ -18,21 +19,22 @@ func NewMemoryDbAdapter(db shared.MemoryDb) logstorer.LogRepository {
 }
 
 func (memory *MemoryDbAdapter) Store(l logstorer.LogData) error {
-	if len(l.Log) == 0 {
+	if len(l.Logs) == 0 {
 		return errors.New("nothing to store")
 	}
 
-	for _, log := range l.Log {
+	for _, log := range l.Logs {
 		memory.db[log.Service.ID] = log
+		fmt.Println("log inserted to service ", log.Service.ID)
 	}
 
-	return errors.New("not implemented yet")
+	return nil
 }
 
 func (memory *MemoryDbAdapter) Find(ServiceID string) *logstorer.LogData {
 	if log, ok := memory.db[ServiceID]; ok {
 		return &logstorer.LogData{
-			Log: []shared.ParsedLog{
+			Logs: []shared.ParsedLog{
 				log,
 			},
 		}

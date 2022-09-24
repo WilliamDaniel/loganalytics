@@ -5,5 +5,5 @@ import (
 )
 
 type LogData struct {
-	Log []shared.ParsedLog
+	Logs []shared.ParsedLog
 }
