@@ -17,9 +17,7 @@ var (
 
 func getLogReaderService(sourcepath string) logreader.Service {
 	if logReaderService == nil {
-		logReaderService = logreader.NewService(
-			impllogreader.NewLogReaderAdapter(sourcepath),
-		)
+		logReaderService = logreader.NewService(impllogreader.NewLogReaderAdapter(sourcepath))
 	}
 	return logReaderService
 }
@@ -33,9 +31,7 @@ func getLogParserService(log *shared.LogFile) logparser.Service {
 
 func getLogStorer() logstorer.Service {
 	if logStorerService == nil {
-		logStorerService = logstorer.NewService(
-			impllogstorer.NewMemoryDbAdapter(shared.NewMemoryDb()),
-		)
+		logStorerService = logstorer.NewService(impllogstorer.NewMemoryDbAdapter(shared.NewMemoryDb()))
 	}
 	return logStorerService
 }
