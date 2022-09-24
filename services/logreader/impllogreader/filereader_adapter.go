@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"os"
 
+	"github.com/WilliamDaniel/loganalytics/services/logreader"
 	"github.com/WilliamDaniel/loganalytics/shared"
 )
 
@@ -11,7 +12,7 @@ type LogReaderAdapter struct {
 	Filepath string
 }
 
-func NewLogReaderAdapter(Filepath string) LogReaderAdapter {
+func NewLogReaderAdapter(Filepath string) logreader.LogReaderGateway {
 	return LogReaderAdapter{
 		Filepath: Filepath,
 	}
