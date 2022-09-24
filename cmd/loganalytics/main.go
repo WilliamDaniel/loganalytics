@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	logReaderService := getLogReaderService("services/logreader/testdata/logs.txt")
+	logReaderService := getLogReaderService()
 	logFileReader, err := logReaderService.ReadFile()
 	if err != nil {
 		fmt.Println("error to read log file")

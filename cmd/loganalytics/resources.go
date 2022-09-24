@@ -15,9 +15,9 @@ var (
 	logStorerService logstorer.Service
 )
 
-func getLogReaderService(sourcepath string) logreader.Service {
+func getLogReaderService() logreader.Service {
 	if logReaderService == nil {
-		logReaderService = logreader.NewService(impllogreader.NewLogReaderAdapter(sourcepath))
+		logReaderService = logreader.NewService(impllogreader.NewLogReaderAdapter(config.Log.Filepath))
 	}
 	return logReaderService
 }
