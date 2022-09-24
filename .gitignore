@@ -2,3 +2,4 @@ logs.txt
 data
 vendor/
 blackhole/
+.docker/

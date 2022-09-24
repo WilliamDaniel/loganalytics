@@ -17,6 +17,7 @@ var (
 
 func getLogReaderService() logreader.Service {
 	if logReaderService == nil {
+		config.Log.Filepath = "blackhole/logs.txt"
 		logReaderService = logreader.NewService(impllogreader.NewLogReaderAdapter(config.Log.Filepath))
 	}
 	return logReaderService

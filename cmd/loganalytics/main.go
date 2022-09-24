@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 
 	"github.com/WilliamDaniel/loganalytics/services/logstorer"
 )
@@ -16,7 +18,7 @@ func main() {
 	parserService := getLogParserService(logFileReader)
 	parsedLogs, err := parserService.Parse()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	storageService := getLogStorer()
@@ -27,6 +29,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-
+	fmt.Println("server started")
+	log.Fatal(http.ListenAndServe(config.HTTP.Port, nil))
 	// TODO: Chamar serviço process e export em csv.
 }

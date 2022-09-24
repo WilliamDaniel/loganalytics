@@ -1,7 +1,10 @@
 package main
 
 var config struct {
+	HTTP struct {
+		Port string `cfgDefault:":8900"`
+	}
 	Log struct {
-		Filepath string `default:"blackhole/logs.txt"`
+		Filepath string `cfgDefault:"blackhole/logs.txt"`
 	}
 }
