@@ -9,6 +9,8 @@ services:
     restart: always     
     networks:
       - docker-network
+    environment:
+      - LOG_FILEPATH=${LOG_FILEPATH}
     
   mysql:
     image: mysql:5.7
@@ -19,7 +21,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./.docker/data/mysql:/var/lib/mysql
     networks:
       - docker-network
 
