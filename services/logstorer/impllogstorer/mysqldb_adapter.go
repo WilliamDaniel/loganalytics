@@ -2,21 +2,25 @@ package impllogstorer
 
 import (
 	"github.com/WilliamDaniel/loganalytics/services/logstorer"
+	"github.com/jinzhu/gorm"
 )
 
 type MySQLDbAdapter struct {
+	db *gorm.DB
 }
 
-func NewMySQLDbAdapter() logstorer.LogRepository {
-	return &MySQLDbAdapter{}
+func NewMySQLDbAdapter(dataBase *gorm.DB) logstorer.LogRepository {
+	return &MySQLDbAdapter{
+		db: dataBase,
+	}
 }
 
-func (memory *MySQLDbAdapter) Store(l logstorer.LogData) error {
-
+func (mysql *MySQLDbAdapter) Store(logs logstorer.LogData) error {
+	mysql.db.Create(&logs)
 	return nil
 }
 
-func (memory *MySQLDbAdapter) Find(ServiceID string) *logstorer.LogData {
+func (mysql *MySQLDbAdapter) Find(ServiceID string) *logstorer.LogData {
 
 	return nil
 }

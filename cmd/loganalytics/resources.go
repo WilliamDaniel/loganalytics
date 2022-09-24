@@ -38,7 +38,7 @@ func getLogStorer() logstorer.Service {
 		}
 	case "MYSQL":
 		if logStorerService == nil {
-			logStorerService = logstorer.NewService(impllogstorer.NewMySQLDbAdapter())
+			logStorerService = logstorer.NewService(impllogstorer.NewMySQLDbAdapter(shared.NewMySQLDb().Db))
 		}
 	default:
 		if logStorerService == nil {
