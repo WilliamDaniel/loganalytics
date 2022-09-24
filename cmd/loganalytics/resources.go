@@ -30,8 +30,20 @@ func getLogParserService(log *shared.LogFile) logparser.Service {
 }
 
 func getLogStorer() logstorer.Service {
-	if logStorerService == nil {
-		logStorerService = logstorer.NewService(impllogstorer.NewMemoryDbAdapter(shared.NewMemoryDb()))
+
+	switch config.DB.Type {
+	case "MEMORY":
+		if logStorerService == nil {
+			logStorerService = logstorer.NewService(impllogstorer.NewMemoryDbAdapter(shared.NewMemoryDb()))
+		}
+	case "MYSQL":
+		if logStorerService == nil {
+			logStorerService = logstorer.NewService(impllogstorer.NewMySQLDbAdapter())
+		}
+	default:
+		if logStorerService == nil {
+			logStorerService = logstorer.NewService(impllogstorer.NewMemoryDbAdapter(shared.NewMemoryDb()))
+		}
 	}
 	return logStorerService
 }

@@ -7,4 +7,7 @@ var config struct {
 	Log struct {
 		Filepath string `cfgDefault:"blackhole/logs.txt"`
 	}
+	DB struct {
+		Type string `cfgDefault:"MEMORY"` // MEMORY, MYSQL
+	}
 }
