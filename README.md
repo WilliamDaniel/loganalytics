@@ -1,12 +1,76 @@
-# Log Analytics
-Realiza a leitura e processamento de logs gerados por API Gateway, exporta os dados processados em forma de relatório CSV
+# WIP: Log Analytics
+Realiza a leitura e processamento de logs gerados por API Gateway, exporta os dados processados em forma de relatório CSV. 
+O sistema irá permitir carregar logs que estão no filesystem, mas também é flexível para implementar outras formas de leitura de logs. Como um adapter para ler logs armazenados no `Prometheus`, por exemplo. Para realizar todas as operações, o loganalytics conta com 4 serviços descritos a baixo. 
+####  `Obs.: como o sistema não foi concluído, o código fonte ainda não representa todo o fluxo.`
+## logreader
+logreader é o serviço responsável por carregar cada linha do `json` de log dentro de um `slice` de string. 
 
-## FileProcessor
-FileProcessor é o serviço responsável por processar os dados extraídos dos logs.
+## logparser
+logparser é o serviço responsável por extrair os dados essenciais do log colocar em uma estrutura que possa ser utilizada pelo serviço de persistência de logs no
+banco de dados. 
+#### `Exemplo da estrutura preenchida`
+```golang
+parsedLog := ParsedLog{
+		AuthenticatedEntity: RequestAuthenticatedEntity{
+			ConsumerID: AuthenticatedEntityConsumerID{
+				UUID: "b3467028-a118-3bbe-988f-35906729991c",
+			},
+		},
+		Service: RequestService{
+			ID: "22f8e3a6-01f7-3264-b4b5-9d178df11d06",
+		},
+		Latencies: RequestLatencies{
+			Proxy: 1586,
+			Gateway: 15,
+			Request: 1882,
+		},
+	}
+```
+
+## logstorer
+logstorer é o serviço responsável por persistir na base de dados os dados da estrutura que contém os dados já parseados. (`ParsedLog`)
+
+## logexporter
+logexporter é o serviço responsável por consutar os logos na base de dados e exportar relatórios em forma de .csv. 
+
+### WIP: Como executar o sistema
+O entrypoint da aplicação ainda não foi concluído e por isso se rodar o comando 
+``go run ./...`` com o terminal na raíz do projeto, verá que o que ele faz é chamar todos os serviços passando suas implementações (adapters) e realizar a inserção dos logs presente no arquivo `logs.txt` dentro do banco de dados em memória. Foi deixado assim para fins de teste, mas ao finalizar a aplicação deverá ter um endpoint que receberá uma request com o payload: 
+
+```json
+Ex. 1
+POST /process/log
+{
+    "command": "PROCESS_FROM_FILESYSTEM",
+    "source":"backhole/logs.txt"
+}
+```
+```json
+Ex. 2
+POST /process/log
+{
+    "command": "PROCESS_FROM_BUCKET",
+    "source":"https://urlbucket.com/logsbucketinsomewhere"
+}
+```
+```json
+Ex. 3
+POST /process/log
+{
+    "command": "PROCESS_FROM_QUEUE",
+    "source":"kafka-topic"
+}
+```
+### Testes
+Para rodar os testes unitários, pode executar o comando `go test ./...`, na raíz do projeto, ou apenas dentro da pasta do serviço observado.
+
+### Arquitetura
+Tudo que faz sentido estar próximo ao serviço (entidade de erros, entidade de negócio, interfaces/gateways, etc.), foi incluído dentro do mesmo diretório. Contudo, houve a preocupação em manter a separação das camadas.
+
 
 `Exemplo de log aceito como input no sistema`
 
-```
+```json
 {
     "request": {
         "method": "GET",
